@@ -2,6 +2,9 @@
 
 ## Malatium.route 
 
+To install:  
+`npm install malatium`
+
 Malatium's `route` function allows you to pass in nested routes which are easy to reason about.
 It flattens the routes, and passes them on to `mithril.route`. It also allows `mode` to be sent
 in as an optional 4th parameter.  
