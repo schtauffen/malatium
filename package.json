@@ -1,0 +1,19 @@
+{
+  "name": "malatium",
+  "version": "0.0.1",
+  "description": "A mithril+redux utility library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Schtauffen/malatium.git"
+  },
+  "author": "Zach Dahl <z.schtauffen@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Schtauffen/malatium/issues"
+  },
+  "homepage": "https://github.com/Schtauffen/malatium#readme"
+}
