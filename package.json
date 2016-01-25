@@ -6,14 +6,38 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ],
+          "plugins": [
+            "transform-object-rest-spread"
+          ]
+        }
+      ]
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Schtauffen/malatium.git"
   },
-  "author": "Zach Dahl <z.schtauffen@gmail.com>",
+  "author": {
+    "name": "Zach Dahl",
+    "email": "z.schtauffen@gmail.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Schtauffen/malatium/issues"
   },
-  "homepage": "https://github.com/Schtauffen/malatium#readme"
+  "homepage": "https://github.com/Schtauffen/malatium#readme",
+  "readme": "# Malatium \n\n## Malatium.route \n\nMalatium's `route` function allows you to pass in nested routes which are easy to reason about.\nIt flattens the routes, and passes them on to `mithril.route`. It also allows `mode` to be sent\nin as an optional 4th parameter.  \n\nIt is a work in progress.\n\n```js\nconst routes = {\n  \"$container\": HeaderFooter,\n  \"/\": HomePage,\n  \"/post\": {\n    \"$container\": Post,\n    \"/:id\": Basic,\n    \"/promo/:id\": Promo,\n    \"$default\": StoryNotFound\n  },\n  \"$default\": PageNotFound\n}\n\nMalatium.route(document.body, \"/\", routes, \"hash\")\n\n```\n\n## Connect\n\nSimilar to the `react-redux` connect, Malatium has a connect function that makes working with Redux stores a piece of cake.\n\n_please see the example repo below for examples_\n\n## Example\n\nAn example of Malatium in action is availabe at:  \nhttps://github.com/Schtauffen/mithril-redux-malatium.git\n\n## License\n\nhttps://opensource.org/licenses/ISC\n\n",
+  "readmeFilename": "README.md",
+  "gitHead": "7b44ad55dec01dbd06f77fd4d1af81789d97e556",
+  "_id": "malatium@0.0.2",
+  "_shasum": "811eef8b5205ca7ba14d7dd341ff3a2113b70d18",
+  "_from": "malatium@latest"
 }
