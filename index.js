@@ -12,23 +12,23 @@ class Provider {
 const Malatium = new Provider
 
 // helper functions
-export function isArray (arr) {
+export const isArray = function (arr) {
   return Object.prototype.toString.call(arr) === "[object Array]"
 }
 
-export function isFunction (fn) {
+export const isFunction = function (fn) {
   return typeof fn === "function"
 }
 
-export function isObject (obj) {
+export const isObject = function (obj) {
   return obj === Object(obj)
 }
 
-export function isComponent (component) {
+export const isComponent = function (component) {
   return isObject(component) && isFunction(component.view) 
 }
 
-export function nestComponents (...components) {
+export const nestComponents = function (...components) {
   return components.reduce((out, component, idx) => {
     if (out === false) return Malatium.m.component(component)
     return Malatium.m.component(component, {}, out)
@@ -89,7 +89,7 @@ export const redrawMiddleware = (store) => (next) => (action) => {
 const special = ["$container", "$alias", "$default"]
 const trimRightSlash = (str) => str.replace(/\/$/, "")
 
-export function flattenRoutes (routes, obj = {}, prefix = "", ...parents) {
+export const flattenRoutes = function (routes, obj = {}, prefix = "", ...parents) {
   if (isFunction(routes)) routes = routes()
 
   if (isComponent(routes)) {
