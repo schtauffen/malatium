@@ -1,11 +1,10 @@
 // Malatium
 class Provider {
-  init (m, store, Component) {
+  init (m, store) {
     if (!m || !store || !store.getState) throw new Error("Mithril and Redux store are required")
     this.m = m
     this.store = store
-    if (!Component) return lazyInit
-    return lazyInit(Component)
+    return this
   }
 }
 
