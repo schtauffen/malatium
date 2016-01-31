@@ -72,7 +72,7 @@ export const connect = (selector, actions, mergeProps) => (Component) => ({
     let actionMap = bindActions(actions, dispatch)
     wrapView(component, actionMap)
 
-    return Malatium.m.component(component, { dispatch, ...state, ...actionMap, ...mergeProps }, children)
+    return Malatium.m.component(component, { ...props, dispatch, ...state, ...actionMap, ...mergeProps }, children)
   }
 })
 
