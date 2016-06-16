@@ -63,13 +63,18 @@ function wrapView (comp, actionMap) {
 }
 
 // connect
-export const connect = (selector, actions, mergeProps) => (Component) => ({
+export const connect = (selector = identity, actions, mergeProps) => (Component) => ({
   view (controller, props, children) {
     const { dispatch, getState } = Malatium.store 
     const state = selector(getState())
     const component = lazyInit(Component) 
+    let actionMap = {}
 
-    let actionMap = bindActions(actions, dispatch)
+    if (typeof actions === 'function') {
+        actionMap = actions(dispatch)
+    } else if (typeof actions === 'object') {
+	actionMap = bindActions(actions, dispatch)
+    }
     wrapView(component, actionMap)
 
     return Malatium.m.component(component, { ...props, dispatch, ...state, ...actionMap, ...mergeProps }, children)
