@@ -64,9 +64,16 @@ function wrapView (comp, actionMap) {
 export const connect = (selector = identity, actions, mergeProps) => (Component) => ({
   view (controller, props, children) {
     const { dispatch, getState } = Malatium.store 
-    const state = typeof selector === 'string'
-        ? getState[selector] // allow nesting todo[0].counter.etc
-        : selector(getState()) // else we assume function
+    let state = {}
+
+    if (typeof selector === 'string') {
+	// TODO - allow nesting todo[0].counter.et
+        state[selector] = getState()[selector]
+    } else {
+        // else we assume function
+        state = selector(getState()) 
+    }
+
     const component = lazyInit(Component) 
     let actionMap = {}
 
