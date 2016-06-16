@@ -64,7 +64,9 @@ function wrapView (comp, actionMap) {
 export const connect = (selector = identity, actions, mergeProps) => (Component) => ({
   view (controller, props, children) {
     const { dispatch, getState } = Malatium.store 
-    const state = selector(getState())
+    const state = typeof selector === 'string'
+        ? getState[selector] // allow nesting todo[0].counter.etc
+        : selector(getState()) // else we assume function
     const component = lazyInit(Component) 
     let actionMap = {}
 
@@ -118,11 +120,6 @@ export const flattenRoutes = function (routes, obj = {}, prefix = "", ...parents
   if (routes.hasOwnProperty("$default")) flattenRoutes(routes.$default, obj, prefix + "/:stub...", ...parents)
 
   return obj
-}
-
-Malatium.route = (DOMElement, defaultRoute, routes, mode) => {
-  if (mode) Malatium.m.route.mode = mode
-  return Malatium.m.route(DOMElement, defaultRoute, flattenRoutes(routes))
 }
 
 export default Malatium

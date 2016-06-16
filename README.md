@@ -11,28 +11,23 @@ Malatium is a collection of utilities for mithril+redux apps.
 It is a work in progress.
 
 ```js
-import m from "mithril"
-import Malatium from "malatium"
-import { createStore } from "redux"
+import m from 'mithril'
+import Provider from "malatium"
+import store from './store'
 
-import reducer from "./reducer"
-import routes from "./routes"
+import App from './containers/app'
 
-const store = createStore(reducer)
-
-Malatium
-  .init(m, store)
-  .route(document.body, "/", routes)
+m.mount(document.body, Provider(m, store, App))
 ```
 
+## flattenRoutes 
 
-## Malatium.route 
-
-Malatium's `route` function allows you to pass in nested routes which are easy to reason about.
-It flattens the routes, and passes them on to `mithril.route`. It also allows `mode` to be sent
-in as an optional 4th parameter.  
+Malatium's `flattenRoutes` function allows you to pass in nested routes which are easy to reason about.
+It flattens the routes, so you can pass them on to `mithril.route`.
 
 ```js
+import { flattenRoutes } from 'malatium'
+
 const routes = {
   "$container": HeaderFooter,
   "/": HomePage,
@@ -45,7 +40,7 @@ const routes = {
   "$default": PageNotFound
 }
 
-Malatium.route(document.body, "/", routes, "hash")
+m.route(document.body, "/", flattenRoutes(routes))
 
 ```
 
@@ -54,13 +49,36 @@ Malatium.route(document.body, "/", routes, "hash")
 
 Similar to the `react-redux` connect, Malatium has a connect function that makes working with Redux stores a piece of cake.
 
-_please see the example repo below to get started_
+```js
+import { connect } from 'malatium'
 
+class Counter {
+    view (ctrl, props, children) {
+        const { counter } = props
+        const incrementOne = incrementAction(1)
 
-## Example
+        return m(...
+            m('span', String(counter)),
+            m('button', { onclick: incrementOne }, '+'),
+            ...
+        )
+    }
+}
 
-An example of Malatium in action is availabe at:  
-https://github.com/Schtauffen/mithril-redux-malatium
+function selector (state) {
+    const { counter } = state
+    return { counter }
+}
+
+export connect(selector, { incrementAction, decrementAction })(new Counter)
+```
+
+You can also pass a string as your selector:
+
+```js
+connect('counter', ...)
+```
+* eventually it will allow nesting: `'todo[0].etc'`
 
 
 ## License

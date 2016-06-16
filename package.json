@@ -1,6 +1,6 @@
 {
   "name": "malatium",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A mithril+redux utility library",
   "main": "index.js",
   "scripts": {
