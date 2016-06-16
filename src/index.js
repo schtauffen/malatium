@@ -1,14 +1,12 @@
 // Malatium
-class Provider {
-  init (m, store) {
+function Malatium (m, store, Component, ...args) {
     if (!m || !store || !store.getState) throw new Error("Mithril and Redux store are required")
-    this.m = m
-    this.store = store
-    return this
-  }
+    Malatium.m = m
+    Malatium.store = store
+    return typeof Component === 'function'
+        ? new Component(...args)
+	: Component
 }
-
-const Malatium = new Provider
 
 // helper functions
 export const isArray = function (arr) {
