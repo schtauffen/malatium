@@ -61,26 +61,42 @@ function wrapView (comp, actionMap) {
 }
 
 // connect
+const keyNames = /\[[^\]]+\]|[^\.\[]+/g
+const bracketed = /^\[[^\]]\]$/
+export function findDeep (result, selectors) {
+  for (let sel of selectors) {
+    if (sel.match(bracketed)) {
+      sel = parseInt(sel.substring(1, sel.length - 1), 10)
+    }
+    if (typeof result[sel] === 'undefined') {
+      result = undefined
+        break
+    }
+    result = result[sel]
+  } 
+  return result
+}
+
 export const connect = (selector = identity, actions, mergeProps) => (Component) => ({
   view (controller, props, children) {
     const { dispatch, getState } = Malatium.store 
     let state = {}
 
     if (typeof selector === 'string') {
-	// TODO - allow nesting todo[0].counter.et
-        state[selector] = getState()[selector]
+      const matches = selector.match(keyNames)
+      state.state = findDeep(getState(), matches)
     } else {
-        // else we assume function
-        state = selector(getState()) 
+      // else we assume function
+      state = selector(getState()) 
     }
 
     const component = lazyInit(Component) 
     let actionMap = {}
 
     if (typeof actions === 'function') {
-        actionMap = actions(dispatch)
+      actionMap = actions(dispatch)
     } else if (typeof actions === 'object') {
-	actionMap = bindActions(actions, dispatch)
+      actionMap = bindActions(actions, dispatch)
     }
     wrapView(component, actionMap)
 
